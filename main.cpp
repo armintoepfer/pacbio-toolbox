@@ -27,13 +27,13 @@ int main(int argc, char* argv[])
     for (const auto& zmw : qry) {
         int32_t cov = 0;
         std::vector<BamRecord> records;
-        for (const auto record : zmw) {
+        for (auto& record : zmw) {
             const auto cx = record.LocalContextFlags();
             if (cx & LocalContextFlags::ADAPTER_BEFORE && cx & LocalContextFlags::ADAPTER_AFTER) {
                 ++cov;
                 records.emplace_back(std::move(record));
             }
-            if (cov > maxPasses) break;
+            if (cov == maxPasses) break;
         }
         if (static_cast<int32_t>(records.size()) == maxPasses) {
             for (const auto& r : records)
