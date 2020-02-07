@@ -49,7 +49,14 @@ exactpass_lib_deps = [
 
 executable(
   'exactpass', files([
-    'main.cpp']),
+    'exactpass.cpp']),
+  install : true,
+  dependencies : exactpass_lib_deps,
+  cpp_args : exactpass_flags)
+
+executable(
+  'subsamplezmws', files([
+    'subsamplezmws.cpp']),
   install : true,
   dependencies : exactpass_lib_deps,
   cpp_args : exactpass_flags)
