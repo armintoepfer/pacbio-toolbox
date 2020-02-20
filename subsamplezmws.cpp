@@ -144,6 +144,7 @@ int main(int argc, char* argv[])
             ++subreadCounter;
         }
         ++zmwCounter;
+        if (zmwCounter % 100 == 0) std::cerr << "Written #ZMWs: " << zmwCounter << '\n';
     }
     std::cerr << "Written ZMWs: " << zmwCounter << std::endl;
     std::cerr << "Written subreads: " << subreadCounter << std::endl;
