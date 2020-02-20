@@ -132,6 +132,7 @@ int main(int argc, char* argv[])
 
     int32_t numberOfZmws = std::round(uniques.size() * percentage / 100.0);
     std::vector<int32_t> subset(uniques.begin(), uniques.begin() + numberOfZmws);
+    std::sort(subset.begin(), subset.end());
 
     ZmwGroupQuery qry{subset, input};
     BamWriter writer{output, header};
