@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
     const std::string input{argv[1]};
     const std::string output{argv[2]};
     const int32_t maxPasses = std::atoi(argv[3]);
+    int32_t maxZmws = std::atoi(argv[4]);
     using namespace PacBio::BAM;
     const auto GetHeader = [&]() {
         BamReader reader{input};
@@ -24,7 +25,9 @@ int main(int argc, char* argv[])
 
     ZmwGroupQuery qry{input};
     BamWriter writer{output, header};
+    int32_t zmwsWritten = 0;
     for (const auto& zmw : qry) {
+        if (maxZmws > 0 && zmwsWritten == maxZmws) break;
         int32_t cov = 0;
         std::vector<BamRecord> records;
         for (auto& record : zmw) {
@@ -36,6 +39,7 @@ int main(int argc, char* argv[])
             if (cov == maxPasses) break;
         }
         if (static_cast<int32_t>(records.size()) == maxPasses) {
+            ++zmwsWritten;
             for (const auto& r : records)
                 writer.Write(r);
         }
