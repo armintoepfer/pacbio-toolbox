@@ -60,3 +60,10 @@ executable(
   install : true,
   dependencies : exactpass_lib_deps,
   cpp_args : exactpass_flags)
+
+executable(
+  'filterprimer', files([
+    'filterprimer.cpp']),
+  install : true,
+  dependencies : exactpass_lib_deps,
+  cpp_args : exactpass_flags)
