@@ -91,6 +91,14 @@ int main(int argc, char* argv[])
 {
     using namespace PacBio;
 
+    if (argc == 0 || argc < 5) {
+        std::cerr << "Usage: filterprimer <input.fa|fq> <output.filtered.fa|fq> "
+                     "<output.good.fa|fq> <primer.fa> [min identity 0-100, def 90]\n";
+        std::cerr << "Note : In- and output formats, fasta or fastq, must be identical!\n";
+        std::cerr << "Note : Gzipped in- and/or outputs, with file suffix .gz, are allowed.\n";
+        std::exit(EXIT_SUCCESS);
+    }
+
     const std::string input{argv[1]};
     const std::string outputFiltered{argv[2]};
     const std::string outputLacking{argv[3]};
