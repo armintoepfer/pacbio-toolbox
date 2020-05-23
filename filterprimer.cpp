@@ -28,7 +28,7 @@ struct EdlibAlignResultHandle
 EdlibAlignConfig DefaultEdlibAlignConfig()
 {
     static const EdlibAlignConfig config =
-        edlibNewAlignConfig(-1, EDLIB_MODE_HW, EDLIB_TASK_PATH, nullptr, 0);
+        edlibNewAlignConfig(-1, EDLIB_MODE_HW, EDLIB_TASK_DISTANCE, nullptr, 0);
     return config;
 }
 
@@ -44,18 +44,17 @@ bool AlignsEdlib(const std::string& refSeq, const std::string& qry, const int32_
 {
     EdlibAlignConfig config = EdlibAlignConfig(DefaultEdlibAlignConfig());
     // Inform edlib of the maximum edit distance that is interesting.
-    // config.k = 1 + (100.0 - minIdentityPerc) * (qrySize / 100.0);
+    config.k = qrySize;
 
     const auto aln = EdlibAlign(refSeq.c_str(), refSeq.size(), qry.c_str(), qrySize, config);
     // Check edit distance (-1 if Edlib does not find an alignment)
     if (aln.data_.editDistance == -1) return false;
 
-    const double identityPerc =
-        100.0 * (1.0 - (1.0 * aln.data_.editDistance / aln.data_.alignmentLength));
+    const double identityPerc = 100.0 * (1.0 - (1.0 * aln.data_.editDistance / qrySize));
     const bool pass = identityPerc >= minIdentityPerc;
-    std::cerr << identityPerc << ' ' << aln.data_.alignmentLength << ' ' << aln.data_.editDistance
-              << ' ' << pass << '\n';
-    return identityPerc >= minIdentityPerc;
+    std::cerr << identityPerc << ' ' << qrySize << ' ' << aln.data_.editDistance << ' ' << pass
+              << '\n';
+    return pass;
 }
 }  // namespace
 
