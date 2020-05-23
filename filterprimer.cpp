@@ -52,8 +52,8 @@ bool AlignsEdlib(const std::string& refSeq, const std::string& qry, const int32_
 
     const double identityPerc = 100.0 * (1.0 - (1.0 * aln.data_.editDistance / qrySize));
     const bool pass = identityPerc >= minIdentityPerc;
-    std::cerr << identityPerc << ' ' << qrySize << ' ' << aln.data_.editDistance << ' ' << pass
-              << '\n';
+    // std::cerr << identityPerc << ' ' << qrySize << ' ' << aln.data_.editDistance << ' ' << pass
+    //           << '\n';
     return pass;
 }
 }  // namespace
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
     int32_t minIdentity = 90;
     if (argc == 6) {
         minIdentity = std::stoi(std::string{argv[5]});
-        std::cerr << "Overriding default minimum identity to " << minIdentity << '\n';
+        std::cout << "Overriding default minimum identity to " << minIdentity << "%\n";
     }
 
     std::vector<std::string> primers;
